@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   
   resources :articles do
     resources :comments
+    resources :ratings
   end
 
   root 'home#index'
