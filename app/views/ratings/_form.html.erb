@@ -1,0 +1,14 @@
+Likes: <%= Rating.where("rating_value == ? AND article_id == ?", 1, @article.id).count %> | 
+Dislikes: <%= Rating.where("rating_value == ? AND article_id == ?", 2, @article.id).count %>
+<% if user_signed_in? %>
+  <% if Rating.where("rating_value == ? AND user_id == ? AND article_id == ?", 1, current_user.id, @article.id).exists? %> 
+    <%= link_to 'Dislike', edit_article_rating_path(@article, {rating: {rating_value: '2'}}) %>
+    <%= link_to 'Unrate', article_rating_path(@article), method: :delete %>
+  <% elsif Rating.where("rating_value == ? AND user_id == ? AND article_id == ?", 2, current_user.id, @article.id).exists? %>
+    <%= link_to 'Like', edit_article_rating_path(@article, {rating: {rating_value: '1'}}) %>
+    <%= link_to 'Unrate', article_rating_path(@article), method: :delete %>
+  <% else %>
+    <%= link_to 'Like', article_ratings_path(@article, {rating: {rating_value: '1'}}), method: :post %>
+    <%= link_to 'Dislke', article_ratings_path(@article, {rating: {rating_value: '2'}}), method: :post %>
+  <% end %>
+<% end %>
